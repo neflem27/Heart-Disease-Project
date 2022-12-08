@@ -38,6 +38,14 @@
 
 # Choosing a Model
 
+The general classification problem required machine learning implementation. Train the given Heart Disease data in order to analyse and predict whether or not a pacient suffers from a heart disease. Multiple models were considered and implemented including lda, qda, glm, decision trees and random forest among others. We opted for a tuned Generalized Linear Model due to simple and clear structure which succesfully reach the 80% accuracy cap without overfitting. 
+
+**Note**: Check the attached R Script for all algorithms.
+
+
+
+
+
 
 
 
