@@ -17,6 +17,7 @@
 - 20 predictors ('Heart Disease' removed)
 - 1148 missing observations
 
+Note: Codebook and data available in repository
 
 # Exploratory Data Analysis
 
@@ -45,7 +46,7 @@
 # Data Cleaning
 ## 1. Unbalanced Data (Noise Reduction)
 
-* Unbalanced data leads to overfitting which is why our team opted to recode and merge categorical labels/factors with less than 20 intancances with the most common labels within the repective predictor. This reduces dimensionality and increases a variable's weight.
+* Unbalanced data leads to overfitting which is why our team initially opted to recode and merge categorical labels/factors with less than 20 intancances with the most common labels within the repective predictor. This reduces dimensionality and increases a variable's weight but for the final model we decided to keep the data as is due to the small size of our training data in order to avoid a loss of significance.
 
 ## 2. Fix structural errors
 
@@ -104,19 +105,22 @@ mean(glm.pred.new != factor(HD.trainNEW$HeartDisease))
 
 ### Testing Data Error Rate
 
-Approximate 0.79 based on Kaggle
+0.18657 public leaderboard (70% of testing data)
+
+0.20258 private leaderboard (30% of testing data)
+
 
 # Model Diagnostics
 
-## Linear Relationship
+<img
+  src="https://github.com/neflem27/Heart-Disease-Project/blob/main/HD_Diagnostics.png"
+  alt="Alt text"
+  title="GLM Assumptions"
+  style="display: inline-block; margin: 0 auto; max-width: 200px">
+  
+ * Based on the diagnostic plots the model violates the assumption of equality of error variance. The normality assumption is met as most points fall on the Normal Q-Q line. The residual vs leverage plot on the other hard shows that there are few influential plots that fall out of Cook's Distance
 
-## Independence
-
-## Homoscedasticity 
-
-## Normality
- 
-* A quick VIF test shows little to no redundancy among the remaining predictors
+* Furthermore, the reduced glm model shows no issues of multicollinearity as their VIF scores remain under 5.
 
 | Predictor | GVIF | DF |
 | ----- | ----- | -----|
@@ -133,12 +137,11 @@ Approximate 0.79 based on Kaggle
 | stroke |1.437992   | 1 |
 
 
-
 # Model Limitations and Ways to Further Improve
 
-## Limitations
+## Limitations: 
 
-* GLM tends to oversimplify without appropriate tuning of parameters. This led to a loss in significance once we used regsubsets to find the best predictors.
+* GLM tends to oversimplify without appropriate tuning of parameters. This led to a loss in significance once we used variable selection to find the best predictors. 
 * This classifier is sensitive to outliers.
 * Variables like Old Peak were hard to normalize due to the structure of the data.
 * The initial traning data was a bit small, less than 5000 obs.
@@ -146,8 +149,10 @@ Approximate 0.79 based on Kaggle
 ## Ways to Further Improve:
 
 * Merge data with new information.
-* Boost Predictors
+* Boost Predictors.
 * Redifine categorical boundries.
+* Fit more flexible models.
+
 
 
 
