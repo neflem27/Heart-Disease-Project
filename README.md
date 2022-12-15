@@ -15,33 +15,60 @@
 
 - 1808 observations
 - 20 predictors ('Heart Disease' removed)
-- 1148 missing obserbations
+- 1148 missing observations
+
 
 # Exploratory Data Analysis
+**Missing Categorical Data**: work_type, average_glucose_level, smoking_status, and married have 631 NA's each. The missing information accounts for about 15% of the total data.
 
-**Missing Categorical Data**: work_type, average_glucose_level, smoking_status, and married have 631 NA's each. The missing information accounts for about 15% of the total data. 
+<img
+  src="https://github.com/neflem27/Heart-Disease-Project/blob/main/HD_NA_MICE.png"
+  alt="Alt text"
+  title="Training Data"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 **Mislabeling and Unbalanced Categorical Data**: Small instances of some categorical labels, little to no effect (e.g. 'Never worked' with 12 obs). Mislabeling of Gender ('M', 'F', 'Male', 'Female').
 
 **Non-Random Observations**: Numerical predictors such as Cholesterol have 600 observations at zero.
 
-**Outliers and Extreme Values**: Several observations affect the general distribution 
+**Outliers and Extreme Values**: Several observations affect the general distribution
+
+<img
+  src="https://github.com/neflem27/Heart-Disease-Project/blob/main/HD_BOX_PLOTS.png"
+  alt="Alt text"
+  title="Box Plots"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  
 **Multicollinearity**: Redundancy among several predictors
 
-# Data Processing & Cleaning
+# Data Cleaning
+## 1. Unbalanced Data (Noise Reduction)
 
-**MissForest Imputation**: Used to fill missing observations by using the median/mode imputation. Then the missing values are then marked as 'Predict' and the other observations  as traning rows which are fed into a Random Forest model trained to predict in this case the NA's present in the data. 
+* Unbalanced data leads to overfitting which is why our team opted to recode and merge categorical labels/factors with less than 20 intancances with the most common labels within the repective predictor. This reduces dimensionality and increases a variable's weight.
 
-**Simplification of Numerical Distributions**: To adress numerical outliers and extreme values we opted to convert numerical observations to categorical based on specific ranges for Age, Cholesterol, and bmi variables into 2 to 3 level categorical predictors.
+## 2. Fix structural errors
 
-**Recoding categorical labels**: Unbalanced data leads to overfitting which is why we merged categorical predictors with less than 20 intancances with the most common label in the repective predictor. Furthermore, the mislabeling of gender was recoded to 'Male' and 'Female' to reduce noise and improve the overall distribution of itself.
+* During the initial EDA there was a single instance of mislabeling throughout the data. The categorical variable "Sex" had four different levels; "Male", "Female", "M", "F" which we recoded into "Male" and "Female" only.
 
-# Choosing a Model
+## 3. Filter unwanted outliers
+
+* By looking at the initial box plots, multiple outliers seem to affect the overall numerical distributions of certain variables. To adress the issue we opted to convert (Oldpeak, Cholesterol and Average Glucose Level) into factors to classify these health measurement's into specific categorical ranges. (Not considered for final model)
+
+## 4. Handle Missing Observations
+
+* **MissForest Imputation** used to fill missing observations by using the median/mode imputation. Then the missing values are then marked as 'Predict' and the other observations  as traning rows which are fed into a Random Forest model trained to predict in this case the NA's present in the data. 
+
+# Model & Validation
 
 The general classification problem required machine learning implementation. Train the given Heart Disease data in order to analyse and predict whether or not a pacient suffers from a heart disease. Multiple models were considered and implemented including lda, qda, glm, decision trees and random forest among others. We opted for a tuned Generalized Linear Model due to simple and clear structure which succesfully reach the 80% accuracy cap without overfitting. 
 
-**Note**: Check the attached R Script for all algorithms.
+**Note**: The attached R Script contains all of statistical methods considered.
 
+## Step 1: Generalized Linear Model using all predictors
+
+## Step 2: Backward AIC (Dimensionality Reduction)
+
+## Step 3: Model and Prediction 
 
 
 
