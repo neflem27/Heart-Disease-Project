@@ -106,11 +106,16 @@ mean(glm.pred.new != factor(HD.trainNEW$HeartDisease))
 
 Approximate 0.79 based on Kaggle
 
-# Model Check
+# Model Diagnostics
 
-## Plots
+## Linear Relationship
 
-## Multicollinearity 
+## Independence
+
+## Homoscedasticity 
+
+## Normality
+ 
 * A quick VIF test shows little to no redundancy among the remaining predictors
 
 | Predictor | GVIF | DF |
