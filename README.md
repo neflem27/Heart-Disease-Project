@@ -8,7 +8,7 @@
 
 **Traning Data Set**
 - 4200 observations
-- 20 predictors and 'HeartDisease' as the outcome
+- 21 predictors and 'HeartDisease' as the outcome
 - 2524 missing observations
 
 **Test Data Set**
@@ -19,6 +19,7 @@
 
 
 # Exploratory Data Analysis
+
 **Missing Categorical Data**: work_type, average_glucose_level, smoking_status, and married have 631 NA's each. The missing information accounts for about 15% of the total data.
 
 <img
@@ -66,9 +67,85 @@ The general classification problem required machine learning implementation. Tra
 
 ## Step 1: Generalized Linear Model using all predictors
 
+```ruby
+m1full <- glm(as.factor(HeartDisease)~.,family = binomial(), data = HD.trainNEW)
+summary(m1full)
+```
+
 ## Step 2: Backward AIC (Dimensionality Reduction)
 
+```ruby
+Backward_AIC <- step(m1full,direction="backward", data = HD.trainNEW) 
+```
+
 ## Step 3: Model and Prediction 
+* The resultant glm is further used to predict "Heart Disease" using the traning data, sticking to the general classification threshold of 0.5.
+
+```ruby
+pred.prob<- predict(Backward_AIC,HD.trainNEW, type = "response")
+head(pred.prob)
+glm.pred.new=rep("No",4220)
+glm.pred.new[pred.prob>0.5] = "Yes"
+```
+
+### Confusion Matrix (Traning Data)
+
+| Heart Disease | No | Yes |
+| ----- | ----- | -----|
+| No |1914 | 464 |
+| Yes | 315 | 1527 |
+
+### Traning Data Error Rate
+
+```ruby
+mean(glm.pred.new != factor(HD.trainNEW$HeartDisease)) 
+[1] 0.1845972
+```
+
+### Testing Data Error Rate
+
+Approximate 0.79 based on Kaggle
+
+# Model Check
+
+## Plots
+
+## Multicollinearity 
+* A quick VIF test shows little to no redundancy among the remaining predictors
+
+| Predictor | GVIF | DF |
+| ----- | ----- | -----|
+| Cholesterol |1.971870 | 1 |
+| MaxHR | 1.073913   | 1 |
+| OldPeak |1.532330   | 1 |
+| Avg_glucose_level | 2.088878   | 1 |
+| Sex |1.012520   | 1 |
+| ChestPainType | 2.549829   | 2 |
+| FastingBS |1.087064   | 1 |
+| ExerciseAngina | 3.469895    | 1 |
+| ST_Slope |4.325311   | 1 |
+| Residence_type | 1.005567   | 1 |
+| stroke |1.437992   | 1 |
+
+
+
+# Model Limitations and Ways to Further Improve
+
+## Limitations
+
+* GLM tends to oversimplify without appropriate tuning of parameters. This led to a loss in significance once we used regsubsets to find the best predictors.
+* This classifier is sensitive to outliers.
+* Variables like Old Peak were hard to normalize due to the structure of the data.
+* The initial traning data was a bit small, less than 5000 obs.
+
+## Ways to Further Improve:
+
+* Merge data with new information.
+* Boost Predictors
+* Redifine categorical boundries.
+
+
+
 
 
 
